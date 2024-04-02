@@ -6,6 +6,8 @@ public class PlayerMov : MonoBehaviour
 {
     public float speed;
     public float forcaPulo;
+    private float MovZ;
+    private float MovX;
     Rigidbody rbPlayer;
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,8 @@ public class PlayerMov : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        MovZ = Input.GetAxisRaw("Vertical");
+        MovX = Input.GetAxisRaw("Horizontal");
         andar();
         pular();
     }
@@ -29,21 +32,15 @@ public class PlayerMov : MonoBehaviour
     }
     private void andar()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        
+        if(Input.GetButton("Vertical"))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + speed);
+            rbPlayer.AddForce(0,0,0.3f*MovZ,ForceMode.Impulse);
         }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetButton("Horizontal"))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - speed);
+            rbPlayer.AddForce(0.3f * MovX, 0, 0, ForceMode.Impulse);
         }
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.position = new Vector3(transform.position.x - speed , transform.position.y, transform.position.z);
-        }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.position = new Vector3(transform.position.x + speed , transform.position.y, transform.position.z);
-        }
+
     }
 }
